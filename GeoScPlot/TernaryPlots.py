@@ -3,6 +3,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import ternary
+import pkg_resources
+
+DATA_PATH = pkg_resources.resource_filename('GeoScPlot','data/')
 
 def buildProvenancePlot():
     #(Lithics, Qtz, Fs)
@@ -206,6 +209,40 @@ def buildAPF():
     tax.line((35, 0), (31.75, 10), linewidth=3., color='k', linestyle="-")
     tax.line((65, 0), (58.4, 10), linewidth=3., color='k', linestyle="-")
     tax.ticks(axis='lbr', linewidth=1, multiple=5)
+    tax.clear_matplotlib_ticks()
+    figure.gca().axis('off')
+    return figure, tax
+
+def buildAFM():
+    def tern2cart(l1, l2, l3):
+        x = l1*0+ l2* 0.5+ l3*1
+        y = l1*0 + l2*1*0.866025404 + l3*0
+        return x,y
+    scale = 100
+    alkNames = ['Rhyolite', 'Dacite', 'Andesite', 'Basaltic Andesite', 'Basalt']
+    tholNames = ['Rhyolite', 'Dacite', 'Andesite', 'Basaltic Andesite', 'Ferro-Basalt','Basalt']
+    tholeiitic = np.loadtxt(DATA_PATH+'tholeiiticData.csv', dtype=float, delimiter=',')
+    alk= np.loadtxt(DATA_PATH+'alkData.csv', dtype=float, delimiter=',')
+    sep =  np.loadtxt(DATA_PATH+'AFM_Sep.csv', dtype=float, delimiter=',')
+    alkConv = [tern2cart(a, f, m) for a, m, f in alk]
+    thConv = [tern2cart(a, f, m) for a, m, f in tholeiitic]
+    figure, tax = ternary.figure(scale=scale)
+    figure.set_size_inches(10, 10)
+    tax.set_title("AFM", fontsize=20)
+    tax.boundary(linewidth=2.0)
+    tax.gridlines(multiple=5, color="black")
+    tax.left_axis_label("A", fontsize=15)
+    tax.right_axis_label("F", fontsize=15)
+    tax.bottom_axis_label("M", fontsize=15)
+    tax.ticks(axis='lbr', linewidth=1, multiple=5)
+    tax.plot([(m,f,a) for a, m, f in tholeiitic], ls='-', marker='o', c='b')
+    tax.plot([(m,f,a) for a, m, f in alk], ls='-', marker='o', c = 'r')
+    tax.plot([(m,f,a) for a, m, f in sep], ls='-', c='purple', lw=5)
+    figure.gca().text(35, 20, 'Calc-Alkaline', fontsize=15, rotation=0)
+    figure.gca().text(40, 60, 'Tholeiitic', fontsize=15, rotation=0)
+
+    [figure.gca().text(c[0], c[1], name, fontsize=12, rotation=-60) for c, name in zip(alkConv, alkNames)]
+    [figure.gca().text(c[0]-0.5*(len(name)), c[1]+1, name, fontsize=12, rotation=-0) for c, name in zip(thConv, tholNames)]
     tax.clear_matplotlib_ticks()
     figure.gca().axis('off')
     return figure, tax

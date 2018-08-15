@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import pkg_resources
-
+from scipy.stats import *
 DATA_PATH = pkg_resources.resource_filename('GeoScPlot','data/')
 def convertToAnhBase(data):
     '''Returns properly arranged DataFrame "data" into anhidrous base data'''
@@ -77,7 +77,7 @@ def plotHarker(data, save=False, nombre = 'Harker'):
     loscolores=["lawngreen", "cyan", "gold", "fuchsia", "r", "indigo"]
     anhBase = convertToAnhBase(data)
     Final, axes =plt.subplots(3, 2, figsize=(20, 20))
-    Final.set_tight_layout()
+#    Final.set_tight_layout()
     axes[0, 0].scatter(anhBase['SiO2'], anhBase['Al2O3'], c=anhBase['CaO'], s=100)
     axes[0, 0].grid()
     axes[0, 0].set_xlabel("$SiO_2(wt\%)$", fontsize=25)
@@ -175,7 +175,7 @@ def plotREE(data, save=False, nombre = 'REE'):
     loscolores=["lawngreen", "cyan", "gold", "fuchsia", "r", "indigo"]
     ree = data.loc[:,'LOI':]
     ree = ree[elementos]
-    condrito = pd.read_csv('Condrito_McDonoughSun95.csv', sep=',')
+    condrito = pd.read_csv(DATA_PATH+'Condrito_McDonoughSun95.csv', sep=',')
     condrito = condrito.set_index(condrito['elem'], drop=True).drop(columns='elem').transpose()
     condrito = condrito[elementos]
     condrito=condrito.transpose()
@@ -206,7 +206,7 @@ def plotSpider(data, save=False, nombre = 'Spider'):
     elementos=["Cs", "Rb", "Ba", "Th", "U", "Nb", "Ta", "La", "Ce", "Pb", "Pr", "Sr", "Nd", "Zr", "Sm", "Eu", "Gd", "Tb", "Dy", "Y", "Ho", "Er", "Yb", "Lu"]
     ree = data.loc[:,'LOI':]
     ree = ree[elementos]
-    morb = pd.read_csv('MORB_SunMcDonough89.csv', sep=',')
+    morb = pd.read_csv(DATA_PATH+'MORB_SunMcDonough89.csv', sep=',')
     morb = morb.set_index(morb['elem'], drop=True).drop(columns='elem').transpose()
     morb = morb[elementos]
     morb=morb.transpose()

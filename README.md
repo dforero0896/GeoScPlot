@@ -50,7 +50,7 @@ A Shervais diagram would look like
 ![alt text](https://github.com/dforero0896/GeoScPlot/blob/master/readme_pics/exampleShervais.png)
 
 
-Some examples may be found [here](https://github.com/dforero0896/GeoScPlot/blob/master/tests/geoscplot_test.ipynb)
+Some examples may be found [here](https://github.com/dforero0896/GeoScPlot/blob/master/tests/geoscplot_test.ipynb).
 
 ### TernaryPlots
 
@@ -90,7 +90,7 @@ In general, data should be passed as a list of tuples or lists, one per sample. 
 Now, let's use other template:
 ```
 f, tax = buildCong()
-rock = [50., 20.]
+rock = [50., 20.] #50% Sand, 20% Gravel, then 30% Mud
 tax.scatter([rock], s =100, marker ='s', c='r')
 plt.gcf()
 plt.tight_layout()
