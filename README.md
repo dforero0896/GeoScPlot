@@ -43,7 +43,14 @@ All `build*` functions return a `figure, ax`, so they are to be used as `fig, ax
 All `plot*` functions have keyword arguments `save` and `nombre` (sorry for the spanglish) so they can be called as
 `plotTAS(data, save=True, nombre = "proyectoPetrologia")`. Default save resolution is 300dpi (which I think is more than enough).
 
-Some example plots may be found [here](TODO)
+![alt text](https://github.com/dforero0896/GeoScPlot/blob/master/readme_pics/exampleTASTemp.png)
+
+A Shervais diagram would look like
+
+![alt text](https://github.com/dforero0896/GeoScPlot/blob/master/readme_pics/exampleShervais.png)
+
+
+Some examples may be found [here](https://github.com/dforero0896/GeoScPlot/blob/master/tests/geoscplot_test.ipynb)
 
 ### TernaryPlots
 
@@ -79,6 +86,18 @@ Your data (sample composition) must be in a python tuple of the form `rock = (P,
 tax.scatter([rock], s = 100, marker = 's', c='r') #Plots the dot with size 100 and a red square marker.
 ```
 In general, data should be passed as a list of tuples or lists, one per sample. These samples must be organized as `(Bottom, Right, Left) = (Bottom right, Top, Bottom left)`, the latter in terms of triangle vertices.
+
+Now, let's use other template:
+```
+f, tax = buildCong()
+rock = [50., 20.]
+tax.scatter([rock], s =100, marker ='s', c='r')
+plt.gcf()
+plt.tight_layout()
+plt.show()
+```
+![alt text](https://github.com/dforero0896/GeoScPlot/blob/master/readme_pics/exampleGravelCongs.png)
+
 
 For more details on the use of the ternary library, visit their GitHub.
 
